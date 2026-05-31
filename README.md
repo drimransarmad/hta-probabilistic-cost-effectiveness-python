@@ -4,6 +4,13 @@
 
 This repository presents a transparent and reproducible **health-technology-assessment-style cost-effectiveness analysis** using Python.
 
+## View the Rendered Notebook
+
+GitHub's notebook preview may occasionally fail to load. The complete rendered notebook, including tables, figures, and interpretation, can be viewed here:
+
+[View the rendered notebook in NBViewer](https://nbviewer.org/github/drimransarmad/hta-probabilistic-cost-effectiveness-python/blob/main/HTA_Probabilistic_Cost_Effectiveness_Project.ipynb)
+
+
 The project compares:
 
 1. **Standard care**
