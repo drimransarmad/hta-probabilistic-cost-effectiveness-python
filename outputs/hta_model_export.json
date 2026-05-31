@@ -1,0 +1,584 @@
+{
+  "project_metadata": {
+    "project_title": "Probabilistic Cost-Effectiveness Analysis for Health Technology Assessment Using Python",
+    "model_type": "Illustrative one-year cohort decision-tree model",
+    "strategies_compared": [
+      "Standard care",
+      "Hypothetical new health intervention"
+    ],
+    "currency_unit": "CU",
+    "effectiveness_measure": "QALYs",
+    "psa_number_of_simulations": 10000,
+    "random_seed": 2026,
+    "interpretation_boundary": "This project is an illustrative statistical-computing demonstration using hypothetical input parameters. It is not a clinical recommendation, reimbursement submission, validated decision tool, or substitute for a full health technology assessment informed by clinical evidence, resource-use data, jurisdiction-specific costs, utility studies, and expert review."
+  },
+  "model_inputs": {
+    "structured_input_table": [
+      {
+        "parameter": "routine_management_cost",
+        "description": "One-year routine management cost received under either strategy",
+        "category": "Cost",
+        "base_case_value": 900.0,
+        "unit": "CU",
+        "psa_distribution": "Gamma",
+        "uncertainty_assumption": "Illustrative mean = 900 CU; SD = 90 CU"
+      },
+      {
+        "parameter": "new_intervention_cost",
+        "description": "Additional one-year acquisition or delivery cost of the new intervention",
+        "category": "Cost",
+        "base_case_value": 800.0,
+        "unit": "CU",
+        "psa_distribution": "Gamma",
+        "uncertainty_assumption": "Illustrative mean = 800 CU; SD = 80 CU"
+      },
+      {
+        "parameter": "main_event_cost",
+        "description": "Cost incurred when the main adverse clinical event occurs",
+        "category": "Cost",
+        "base_case_value": 6500.0,
+        "unit": "CU",
+        "psa_distribution": "Gamma",
+        "uncertainty_assumption": "Illustrative mean = 6,500 CU; SD = 1,300 CU"
+      },
+      {
+        "parameter": "mild_adverse_effect_cost",
+        "description": "Cost incurred if a mild intervention-related adverse effect occurs",
+        "category": "Cost",
+        "base_case_value": 250.0,
+        "unit": "CU",
+        "psa_distribution": "Gamma",
+        "uncertainty_assumption": "Illustrative mean = 250 CU; SD = 50 CU"
+      },
+      {
+        "parameter": "baseline_event_probability",
+        "description": "Probability of the main adverse clinical event under standard care",
+        "category": "Probability",
+        "base_case_value": 0.3,
+        "unit": "Probability",
+        "psa_distribution": "Beta",
+        "uncertainty_assumption": "Illustrative mean = 0.30; effective sample size = 100"
+      },
+      {
+        "parameter": "relative_risk_new_intervention",
+        "description": "Relative risk of the main event under the new intervention versus standard care",
+        "category": "Treatment effect",
+        "base_case_value": 0.68,
+        "unit": "Risk ratio",
+        "psa_distribution": "Lognormal",
+        "uncertainty_assumption": "Illustrative median = 0.68; log-scale SD = 0.12"
+      },
+      {
+        "parameter": "mild_adverse_effect_probability",
+        "description": "Probability of a mild intervention-related adverse effect",
+        "category": "Probability",
+        "base_case_value": 0.06,
+        "unit": "Probability",
+        "psa_distribution": "Beta",
+        "uncertainty_assumption": "Illustrative mean = 0.06; effective sample size = 100"
+      },
+      {
+        "parameter": "baseline_qaly_without_event",
+        "description": "One-year QALYs expected when the main event does not occur",
+        "category": "Health outcome",
+        "base_case_value": 0.86,
+        "unit": "QALYs",
+        "psa_distribution": "Beta",
+        "uncertainty_assumption": "Illustrative mean = 0.86; effective sample size = 100"
+      },
+      {
+        "parameter": "main_event_qaly_loss",
+        "description": "QALY loss associated with the main adverse clinical event",
+        "category": "Health outcome",
+        "base_case_value": 0.08,
+        "unit": "QALYs",
+        "psa_distribution": "Scaled beta",
+        "uncertainty_assumption": "Illustrative mean = 0.08; range = 0.00 to 0.20 QALYs"
+      },
+      {
+        "parameter": "mild_adverse_effect_qaly_loss",
+        "description": "QALY loss associated with a mild intervention-related adverse effect",
+        "category": "Health outcome",
+        "base_case_value": 0.008,
+        "unit": "QALYs",
+        "psa_distribution": "Scaled beta",
+        "uncertainty_assumption": "Illustrative mean = 0.008; range = 0.000 to 0.030 QALYs"
+      }
+    ],
+    "base_case_parameter_values": {
+      "routine_management_cost": 900.0,
+      "new_intervention_cost": 800.0,
+      "main_event_cost": 6500.0,
+      "mild_adverse_effect_cost": 250.0,
+      "baseline_event_probability": 0.3,
+      "relative_risk_new_intervention": 0.68,
+      "mild_adverse_effect_probability": 0.06,
+      "baseline_qaly_without_event": 0.86,
+      "main_event_qaly_loss": 0.08,
+      "mild_adverse_effect_qaly_loss": 0.008
+    },
+    "psa_distribution_specifications": {
+      "routine_management_cost": {
+        "distribution": "Gamma",
+        "mean": 900.0,
+        "sd": 90.0
+      },
+      "new_intervention_cost": {
+        "distribution": "Gamma",
+        "mean": 800.0,
+        "sd": 80.0
+      },
+      "main_event_cost": {
+        "distribution": "Gamma",
+        "mean": 6500.0,
+        "sd": 1300.0
+      },
+      "mild_adverse_effect_cost": {
+        "distribution": "Gamma",
+        "mean": 250.0,
+        "sd": 50.0
+      },
+      "baseline_event_probability": {
+        "distribution": "Beta",
+        "mean": 0.3,
+        "effective_sample_size": 100
+      },
+      "relative_risk_new_intervention": {
+        "distribution": "Lognormal",
+        "median": 0.68,
+        "log_sd": 0.12
+      },
+      "mild_adverse_effect_probability": {
+        "distribution": "Beta",
+        "mean": 0.06,
+        "effective_sample_size": 100
+      },
+      "baseline_qaly_without_event": {
+        "distribution": "Beta",
+        "mean": 0.86,
+        "effective_sample_size": 100
+      },
+      "main_event_qaly_loss": {
+        "distribution": "Scaled beta",
+        "mean": 0.08,
+        "lower_bound": 0.0,
+        "upper_bound": 0.2,
+        "effective_sample_size": 60
+      },
+      "mild_adverse_effect_qaly_loss": {
+        "distribution": "Scaled beta",
+        "mean": 0.008,
+        "lower_bound": 0.0,
+        "upper_bound": 0.03,
+        "effective_sample_size": 60
+      }
+    }
+  },
+  "deterministic_base_case": {
+    "strategy_level_results": [
+      {
+        "strategy": "Standard care",
+        "expected_cost_cu": 2850.0,
+        "expected_qalys": 0.836,
+        "main_event_probability": 0.3,
+        "mild_adverse_effect_probability": 0.0
+      },
+      {
+        "strategy": "New intervention",
+        "expected_cost_cu": 3041.0,
+        "expected_qalys": 0.8432,
+        "main_event_probability": 0.204,
+        "mild_adverse_effect_probability": 0.06
+      }
+    ],
+    "incremental_cost_effectiveness_results": [
+      {
+        "comparison": "New intervention vs standard care",
+        "standard_care_expected_cost_cu": 2850.0,
+        "new_intervention_expected_cost_cu": 3041.0,
+        "incremental_cost_cu": 191.0,
+        "standard_care_expected_qalys": 0.836,
+        "new_intervention_expected_qalys": 0.8432,
+        "incremental_qalys": 0.0072,
+        "icer_cu_per_qaly": 26527.7777777778,
+        "interpretation": "The new intervention is more costly and more effective."
+      }
+    ],
+    "selected_net_monetary_benefit_results": [
+      {
+        "wtp_threshold_cu_per_qaly": 0,
+        "standard_care_nmb_cu": -2850.0,
+        "new_intervention_nmb_cu": -3041.0,
+        "incremental_nmb_cu": -191.0,
+        "favored_strategy": "Standard care"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 10000,
+        "standard_care_nmb_cu": 5510.0,
+        "new_intervention_nmb_cu": 5391.0,
+        "incremental_nmb_cu": -119.0,
+        "favored_strategy": "Standard care"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 20000,
+        "standard_care_nmb_cu": 13870.0,
+        "new_intervention_nmb_cu": 13823.0,
+        "incremental_nmb_cu": -47.0,
+        "favored_strategy": "Standard care"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 30000,
+        "standard_care_nmb_cu": 22230.0,
+        "new_intervention_nmb_cu": 22255.0,
+        "incremental_nmb_cu": 25.0,
+        "favored_strategy": "New intervention"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 40000,
+        "standard_care_nmb_cu": 30590.0,
+        "new_intervention_nmb_cu": 30687.0,
+        "incremental_nmb_cu": 97.0,
+        "favored_strategy": "New intervention"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 50000,
+        "standard_care_nmb_cu": 38950.0,
+        "new_intervention_nmb_cu": 39119.0,
+        "incremental_nmb_cu": 169.0,
+        "favored_strategy": "New intervention"
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 60000,
+        "standard_care_nmb_cu": 47310.0,
+        "new_intervention_nmb_cu": 47551.0,
+        "incremental_nmb_cu": 241.0,
+        "favored_strategy": "New intervention"
+      }
+    ],
+    "break_even_wtp_threshold_cu_per_qaly": 26527.777777777836
+  },
+  "probabilistic_sensitivity_analysis": {
+    "psa_input_diagnostic_summary": [
+      {
+        "parameter": "routine_management_cost",
+        "distribution": "Gamma",
+        "base_case_value": 900.0,
+        "simulated_mean": 899.0949821008,
+        "simulated_sd": 89.8678602572,
+        "simulated_median": 897.3453201453,
+        "lower_2.5_percentile": 732.7432039592,
+        "upper_97.5_percentile": 1081.9871488095
+      },
+      {
+        "parameter": "new_intervention_cost",
+        "distribution": "Gamma",
+        "base_case_value": 800.0,
+        "simulated_mean": 800.5246456865,
+        "simulated_sd": 79.1404831213,
+        "simulated_median": 797.7727353286,
+        "lower_2.5_percentile": 651.7638731322,
+        "upper_97.5_percentile": 964.8413666139
+      },
+      {
+        "parameter": "main_event_cost",
+        "distribution": "Gamma",
+        "base_case_value": 6500.0,
+        "simulated_mean": 6496.2909828016,
+        "simulated_sd": 1294.167193351,
+        "simulated_median": 6418.0107190146,
+        "lower_2.5_percentile": 4215.9360721605,
+        "upper_97.5_percentile": 9240.558211527
+      },
+      {
+        "parameter": "mild_adverse_effect_cost",
+        "distribution": "Gamma",
+        "base_case_value": 250.0,
+        "simulated_mean": 250.5788961974,
+        "simulated_sd": 50.4765606384,
+        "simulated_median": 247.4284587434,
+        "lower_2.5_percentile": 161.909517381,
+        "upper_97.5_percentile": 359.7258038357
+      },
+      {
+        "parameter": "baseline_event_probability",
+        "distribution": "Beta",
+        "base_case_value": 0.3,
+        "simulated_mean": 0.3002771478,
+        "simulated_sd": 0.0450059127,
+        "simulated_median": 0.299499979,
+        "lower_2.5_percentile": 0.2179788829,
+        "upper_97.5_percentile": 0.3923478887
+      },
+      {
+        "parameter": "relative_risk_new_intervention",
+        "distribution": "Lognormal",
+        "base_case_value": 0.68,
+        "simulated_mean": 0.6864793276,
+        "simulated_sd": 0.0829045334,
+        "simulated_median": 0.6807985225,
+        "lower_2.5_percentile": 0.5386575253,
+        "upper_97.5_percentile": 0.864436024
+      },
+      {
+        "parameter": "mild_adverse_effect_probability",
+        "distribution": "Beta",
+        "base_case_value": 0.06,
+        "simulated_mean": 0.0601504857,
+        "simulated_sd": 0.0236829857,
+        "simulated_median": 0.0571780564,
+        "lower_2.5_percentile": 0.0223500022,
+        "upper_97.5_percentile": 0.1144286504
+      },
+      {
+        "parameter": "baseline_qaly_without_event",
+        "distribution": "Beta",
+        "base_case_value": 0.86,
+        "simulated_mean": 0.8600839511,
+        "simulated_sd": 0.0346462024,
+        "simulated_median": 0.8626698977,
+        "lower_2.5_percentile": 0.7849837871,
+        "upper_97.5_percentile": 0.9203746937
+      },
+      {
+        "parameter": "main_event_qaly_loss",
+        "distribution": "Scaled beta",
+        "base_case_value": 0.08,
+        "simulated_mean": 0.0800882464,
+        "simulated_sd": 0.0126601421,
+        "simulated_median": 0.0795995094,
+        "lower_2.5_percentile": 0.0562988673,
+        "upper_97.5_percentile": 0.105511656
+      },
+      {
+        "parameter": "mild_adverse_effect_qaly_loss",
+        "distribution": "Scaled beta",
+        "base_case_value": 0.008,
+        "simulated_mean": 0.0080046187,
+        "simulated_sd": 0.0016966161,
+        "simulated_median": 0.0079152973,
+        "lower_2.5_percentile": 0.0049517352,
+        "upper_97.5_percentile": 0.0115815006
+      }
+    ],
+    "psa_outcome_summary": [
+      {
+        "outcome": "standard_care_expected_cost_cu",
+        "mean": 2849.1823467466,
+        "sd": 495.4678976605,
+        "median": 2804.8861957565,
+        "lower_2.5_percentile": 2024.2123594304,
+        "upper_97.5_percentile": 3937.0811476542
+      },
+      {
+        "outcome": "new_intervention_expected_cost_cu",
+        "mean": 3053.0457405546,
+        "sd": 391.5993071039,
+        "median": 3015.5949948918,
+        "lower_2.5_percentile": 2401.5187621548,
+        "upper_97.5_percentile": 3930.9127109385
+      },
+      {
+        "outcome": "incremental_cost_cu",
+        "mean": 203.8633938081,
+        "sd": 240.6847141039,
+        "median": 221.2538519568,
+        "lower_2.5_percentile": -316.432343495,
+        "upper_97.5_percentile": 625.170718675
+      },
+      {
+        "outcome": "standard_care_expected_qalys",
+        "mean": 0.8360396813,
+        "sd": 0.0350233848,
+        "median": 0.838770184,
+        "lower_2.5_percentile": 0.7599604053,
+        "upper_97.5_percentile": 0.8979983178
+      },
+      {
+        "outcome": "new_intervention_expected_qalys",
+        "mean": 0.8431016048,
+        "sd": 0.0348899424,
+        "median": 0.8457491339,
+        "lower_2.5_percentile": 0.7675194407,
+        "upper_97.5_percentile": 0.9049581616
+      },
+      {
+        "outcome": "incremental_qalys",
+        "mean": 0.0070619236,
+        "sd": 0.0026376589,
+        "median": 0.0068811364,
+        "lower_2.5_percentile": 0.0023302539,
+        "upper_97.5_percentile": 0.0127309287
+      }
+    ],
+    "cost_effectiveness_plane_quadrant_summary": [
+      {
+        "cost_effectiveness_plane_quadrant": "North-east: more costly and more effective",
+        "number_of_simulations": 8044,
+        "proportion": 0.8044
+      },
+      {
+        "cost_effectiveness_plane_quadrant": "North-west: dominant (less costly and more effective)",
+        "number_of_simulations": 1941,
+        "proportion": 0.1941
+      },
+      {
+        "cost_effectiveness_plane_quadrant": "South-east: dominated (more costly and less effective)",
+        "number_of_simulations": 15,
+        "proportion": 0.0015
+      }
+    ],
+    "selected_ceac_results": [
+      {
+        "wtp_threshold_cu_per_qaly": 0,
+        "probability_new_intervention_cost_effective": 0.1941,
+        "probability_standard_care_cost_effective": 0.8059,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 10000,
+        "probability_new_intervention_cost_effective": 0.2817,
+        "probability_standard_care_cost_effective": 0.7183,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 20000,
+        "probability_new_intervention_cost_effective": 0.387,
+        "probability_standard_care_cost_effective": 0.613,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 30000,
+        "probability_new_intervention_cost_effective": 0.4872,
+        "probability_standard_care_cost_effective": 0.5128,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 40000,
+        "probability_new_intervention_cost_effective": 0.5765,
+        "probability_standard_care_cost_effective": 0.4235,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 50000,
+        "probability_new_intervention_cost_effective": 0.6547,
+        "probability_standard_care_cost_effective": 0.3453,
+        "probability_equivalent_nmb": 0.0
+      },
+      {
+        "wtp_threshold_cu_per_qaly": 60000,
+        "probability_new_intervention_cost_effective": 0.716,
+        "probability_standard_care_cost_effective": 0.284,
+        "probability_equivalent_nmb": 0.0
+      }
+    ]
+  },
+  "scenario_analysis": {
+    "wtp_threshold_cu_per_qaly": 30000,
+    "scenario_results": [
+      {
+        "scenario": "Base case",
+        "description": "Original illustrative assumptions",
+        "baseline_event_probability": 0.3,
+        "relative_risk_new_intervention": 0.68,
+        "new_intervention_cost_cu": 800.0,
+        "mild_adverse_effect_probability": 0.06,
+        "standard_care_expected_cost_cu": 2850.0,
+        "new_intervention_expected_cost_cu": 3041.0,
+        "incremental_cost_cu": 191.0,
+        "standard_care_expected_qalys": 0.836,
+        "new_intervention_expected_qalys": 0.8432,
+        "incremental_qalys": 0.0072,
+        "icer_cu_per_qaly": 26527.7777777778,
+        "cost_effectiveness_status": "More costly and more effective",
+        "incremental_nmb_at_30000_cu": 25.0,
+        "favored_strategy_at_30000_cu_per_qaly": "New intervention"
+      },
+      {
+        "scenario": "More conservative treatment effect",
+        "description": "Relative risk increased from 0.68 to 0.82",
+        "baseline_event_probability": 0.3,
+        "relative_risk_new_intervention": 0.82,
+        "new_intervention_cost_cu": 800.0,
+        "mild_adverse_effect_probability": 0.06,
+        "standard_care_expected_cost_cu": 2850.0,
+        "new_intervention_expected_cost_cu": 3314.0,
+        "incremental_cost_cu": 464.0,
+        "standard_care_expected_qalys": 0.836,
+        "new_intervention_expected_qalys": 0.83984,
+        "incremental_qalys": 0.00384,
+        "icer_cu_per_qaly": 120833.3333333348,
+        "cost_effectiveness_status": "More costly and more effective",
+        "incremental_nmb_at_30000_cu": -348.8,
+        "favored_strategy_at_30000_cu_per_qaly": "Standard care"
+      },
+      {
+        "scenario": "Higher intervention cost",
+        "description": "Additional intervention cost increased from 800 CU to 1,100 CU",
+        "baseline_event_probability": 0.3,
+        "relative_risk_new_intervention": 0.68,
+        "new_intervention_cost_cu": 1100.0,
+        "mild_adverse_effect_probability": 0.06,
+        "standard_care_expected_cost_cu": 2850.0,
+        "new_intervention_expected_cost_cu": 3341.0,
+        "incremental_cost_cu": 491.0,
+        "standard_care_expected_qalys": 0.836,
+        "new_intervention_expected_qalys": 0.8432,
+        "incremental_qalys": 0.0072,
+        "icer_cu_per_qaly": 68194.4444444446,
+        "cost_effectiveness_status": "More costly and more effective",
+        "incremental_nmb_at_30000_cu": -275.0,
+        "favored_strategy_at_30000_cu_per_qaly": "Standard care"
+      },
+      {
+        "scenario": "Higher-risk population",
+        "description": "Baseline event probability increased from 0.30 to 0.45",
+        "baseline_event_probability": 0.45,
+        "relative_risk_new_intervention": 0.68,
+        "new_intervention_cost_cu": 800.0,
+        "mild_adverse_effect_probability": 0.06,
+        "standard_care_expected_cost_cu": 3825.0,
+        "new_intervention_expected_cost_cu": 3704.0,
+        "incremental_cost_cu": -121.0,
+        "standard_care_expected_qalys": 0.824,
+        "new_intervention_expected_qalys": 0.83504,
+        "incremental_qalys": 0.01104,
+        "icer_cu_per_qaly": null,
+        "cost_effectiveness_status": "Dominant",
+        "incremental_nmb_at_30000_cu": 452.2,
+        "favored_strategy_at_30000_cu_per_qaly": "New intervention"
+      },
+      {
+        "scenario": "Combined unfavorable scenario",
+        "description": "Weaker treatment effect, higher intervention cost, and greater mild adverse-effect burden",
+        "baseline_event_probability": 0.3,
+        "relative_risk_new_intervention": 0.82,
+        "new_intervention_cost_cu": 1100.0,
+        "mild_adverse_effect_probability": 0.1,
+        "standard_care_expected_cost_cu": 2850.0,
+        "new_intervention_expected_cost_cu": 3634.0,
+        "incremental_cost_cu": 784.0,
+        "standard_care_expected_qalys": 0.836,
+        "new_intervention_expected_qalys": 0.83952,
+        "incremental_qalys": 0.00352,
+        "icer_cu_per_qaly": 222727.2727272748,
+        "cost_effectiveness_status": "More costly and more effective",
+        "incremental_nmb_at_30000_cu": -678.4,
+        "favored_strategy_at_30000_cu_per_qaly": "Standard care"
+      }
+    ]
+  },
+  "exported_files": {
+    "figures": [
+      "cost_effectiveness_plane.png",
+      "cost_effectiveness_acceptability_curve.png",
+      "net_monetary_benefit_by_threshold.png",
+      "scenario_analysis_summary.png"
+    ],
+    "summary_tables": [
+      "hta_base_case_results.csv",
+      "hta_psa_summary.csv",
+      "hta_scenario_results.csv"
+    ],
+    "structured_dataset": "hta_model_export.json"
+  }
+}

@@ -1,0 +1,10 @@
+summary_type,metric,mean,sd,median,lower_2.5_percentile,upper_97.5_percentile,number_of_simulations,proportion
+PSA outcome distribution,standard_care_expected_cost_cu,2849.1823467465515,495.46789766051893,2804.8861957565096,2024.2123594303528,3937.0811476542262,,
+PSA outcome distribution,new_intervention_expected_cost_cu,3053.0457405546204,391.5993071039143,3015.5949948917973,2401.5187621548375,3930.9127109385495,,
+PSA outcome distribution,incremental_cost_cu,203.86339380806868,240.68471410390765,221.2538519568127,-316.43234349500136,625.1707186749595,,
+PSA outcome distribution,standard_care_expected_qalys,0.8360396812504342,0.035023384756821103,0.8387701839657173,0.7599604053288492,0.8979983177926008,,
+PSA outcome distribution,new_intervention_expected_qalys,0.8431016048137766,0.034889942376167035,0.8457491339364842,0.767519440679231,0.9049581615985856,,
+PSA outcome distribution,incremental_qalys,0.0070619235633424295,0.0026376589036555824,0.006881136411392097,0.0023302538709959798,0.012730928716863892,,
+Cost-effectiveness-plane quadrant,North-east: more costly and more effective,,,,,,8044.0,0.8044
+Cost-effectiveness-plane quadrant,North-west: dominant (less costly and more effective),,,,,,1941.0,0.1941
+Cost-effectiveness-plane quadrant,South-east: dominated (more costly and less effective),,,,,,15.0,0.0015

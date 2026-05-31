@@ -1,0 +1,2 @@
+comparison,standard_care_expected_cost_cu,new_intervention_expected_cost_cu,incremental_cost_cu,standard_care_expected_qalys,new_intervention_expected_qalys,incremental_qalys,icer_cu_per_qaly,interpretation
+New intervention vs standard care,2850.0,3041.0,191.0,0.836,0.8432,0.007199999999999984,26527.777777777836,The new intervention is more costly and more effective.
